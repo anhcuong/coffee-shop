@@ -1,8 +1,7 @@
-install:
-	docker run -it --rm --user "$(id -u):$(id -g)" -v "$PWD/coffeeshop":/usr/src/app -w /usr/src/app ruby:2.1 bundle install
-
+docker:
+	docker build -t princep3/rails .
 run:
-	docker run -it --rm  --user "$(id -u):$(id -g)" -v "$PWD/coffeeshop":/usr/src/app -w /usr/src/app -P rails bundle exec rails s
+	docker run --name=app --rm -it -v $(pwd):/app -w /app/coffeeshop --net=host princep3/rails rails s
 
 
 
