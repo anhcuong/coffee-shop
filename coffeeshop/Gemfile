@@ -47,3 +47,4 @@ end
 
 # Custom gem packages
 gem 'mysql2'
+gem 'rails-api'
