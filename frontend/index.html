@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="appCtrl">
+<head>
+	<link rel="shortcut icon" href="">
+	<title>The Coffeeshop</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+		<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">	
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.js"></script>
+	<script src="js/custom-angular.js"></script>	
+</head>
+<body>
+	<!-- MAIN CONTENT AND INJECTED VIEWS -->
+    <div id="main">
+    	<div ng-view></div>
+        <!-- angular templating -->
+        <!-- this is where content will be injected -->
+
+    </div>
+	<!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>	
+	<script src="js/custom.js"></script>
+</body>
+</html>
