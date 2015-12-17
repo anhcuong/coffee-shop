@@ -1,1 +1,99 @@
-admin
+<div class="row">	
+	<div class="row col s3 m5">
+		<div class = "row">	
+			<h5>Drink Type</h5> 
+			<li ng-repeat="type in types"> {{ type.name }} </li>	
+		</div>
+
+		<div class = "row">	
+			<h5>Drink Size</h5> 
+			<li ng-repeat="size in sizes"> {{ size.name }} </li>	
+		</div>
+
+		<div class = "row">	
+			<h5>Product List</h5> 
+			<li ng-repeat="product in products | unique:'name' | orderBy:'type_id'"> {{ product.name }} </li>	
+		</div>
+	</div>
+	<div class="row col s9 m7">
+		<form ng-controller="adminformController">								
+			<div class="row">
+				<div class="input-field col s9 m9">				
+				  	<input placeholder="Drink Type" ng-model="newtype" type="text">         	
+				</div>
+				<br>
+				<button ng-confirm-click="Do you want to proceed?" ng-click="addNewDrinkType(newtype)" class="btn waves-effect waves-light indigo darken-4">+    
+				</button>				
+			</div>
+
+			<div class="row">
+				<div class="input-field col s9 m9">				
+				  	<input placeholder="Drink Size" ng-model="newsize" type="text">         	
+				</div>
+				<br>
+				<button ng-confirm-click="Do you want to proceed?" ng-click="addNewDrinkSize(newsize)" class="btn waves-effect waves-light indigo darken-4">+    
+				</button>				
+			</div>
+
+			<div class="row">
+				<div class="input-field col s12 m12">				
+				  	<input placeholder="Product Name" ng-model="newproduct.name" type="text">         	
+				</div>
+				
+				<div class="input-field col s6 m6">				
+				  	<select class="browser-default" ng-model="newproduct.type">
+					    <option value="" disabled selected>Type</option>
+					    <option ng-repeat="type in types | orderBy:'id'" ng-value="type.id">{{ type.name }}</option>				    
+				  	</select>         	
+				</div>
+
+				<div class="input-field col s6 m6">				
+				  	<select class="browser-default" ng-model="newproduct.size">
+					    <option value="" disabled selected>Size</option>
+					    <option ng-repeat="size in sizes | orderBy:'id'" ng-value="size.id">{{ size.name }}</option>				    
+				  	</select>         	
+				</div>
+
+				<div class="input-field col s9 m9">				
+				  	<input placeholder="Product Price (SGD)" ng-model="newproduct.price" type="text">
+				</div>
+
+				<div class="col s3 m3">
+					<br>
+					<button ng-confirm-click="Do you want to proceed?" ng-click="addNewProduct(newproduct)" class="btn waves-effect waves-light indigo darken-4">+    
+					</button>	         	
+				</div>
+
+				
+							
+			</div>
+
+		</form>				
+	</div>
+</div>
+<hr>
+<div class="row">
+	<h3>Order History</h3>
+	
+	<div class="col s12">
+		<table class="striped responsive-table">
+			<thead>
+				<tr>
+				  <th data-field="blank"></th>		  
+				  <!-- <th ng-repeat="size in sizes | orderBy:'id'">{{ size.name }}</th>		   -->
+				</tr>
+			</thead>
+			<tbody>
+				<!-- <tr ng-repeat="product in products | unique:'name' | orderBy:'type_id'">
+					<td> {{ product.name }}</td>			
+					<td ng-repeat="size in sizes | orderBy:'id'">
+						<div ng-repeat="product2 in products | filter:product.name | orderBy:'size_id'">
+							<div ng-if="product2.size_id==size.id">{{ product2.price }}</div>	
+						</div>
+					</td>			
+				</tr>			 -->
+			</tbody>
+		</table>
+	</div>	
+
+</div>

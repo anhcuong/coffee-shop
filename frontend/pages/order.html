@@ -1,7 +1,7 @@
 <h3>Menu</h3> 
 <hr>
 <div class = "row">	
-	<div class="col s10">
+	<div class="col s12">
 		<table class="striped responsive-table">
 			<thead>
 				<tr>
@@ -14,7 +14,7 @@
 					<td> {{ product.name }}</td>			
 					<td ng-repeat="size in sizes | orderBy:'id'">
 						<div ng-repeat="product2 in products | filter:product.name | orderBy:'size_id'">
-							<div ng-if="product2.size_id==size.id">{{ product2.price }}</div>				
+							<div ng-if="product2.size_id==size.id">{{ product2.price }}</div>	
 						</div>
 					</td>			
 				</tr>			
@@ -26,35 +26,41 @@
 
 <div class="row">
 	<form ng-controller="formController">						
-		<div class="row" data-ng-repeat="(key,choice) in choices">	  
+		<div class="row" ng-repeat="(key,choice) in choices">	  
 			<div class="input-field col s5 m3">				
-			  	<select class="browser-default" ng-model="data.product">
+			  	<select class="browser-default" ng-model="choices[key].product">
 				    <option value="" disabled selected>Choose your drink</option>
 				    <option ng-repeat="product in products | unique:'name' | orderBy:'type_id'" ng-value="product.name">{{ product.name }}</option>				    
 			  	</select>
 			</div>
 			<div class="input-field col s5 m3">				
-			  	<select class="browser-default" ng-model="data.size">
+			  	<select class="browser-default" ng-model="choices[key].size">
 				    <option value="" disabled selected>Type</option>
-				    <option ng-repeat="size in sizes | orderBy:'id'" value="size.id">{{ size.name }}</option>				    
+				    <option ng-repeat="size in sizes | orderBy:'id'" ng-value="size.id">{{ size.name }}</option>				    
 			  	</select>
 			</div>
-			<div class="input-field col s2 m1">							  	
-		        <input disabled ng-value="product in products | filter:data.product | filter: data.size" id="order" type="text">		
+			<div class="input-field col s2 m1">				
+				<input ng-repeat="product in products | filter:choices[key].product" ng-if="product.size_id==choices[key].size" disabled ng-value="product.price | currency" type="text" class="validate"> 
 			</div>
 			<div class="input-field col s5 m2">				
-			  	<input placeholder="Quantity" id="quantity" type="text" class="">          		
+			  	<input placeholder="Quantity" ng-model="choices[key].quantity" type="text" class="">          		
 			</div>
 			<div class="col s5 m2">
 				<a ng-click="removeChoice(key)" class="btn-floating btn-large waves-effect waves-light indigo darken-4">x</a>
 			</div>
-		</div>
+			{{ addTotal(product.price, choices[key].quantity) }}
+		</div>		
 		<div class="row">
-			<a ng-click="addNewChoice()" class="btn-floating btn-large waves-effect waves-light indigo darken-4"><i class="material-icons">add</i></a> Add new order   
-		</div>
-		
-		<div id="choicesDisplay">
-		  {{ choices }}
+			<div class="col s3">
+				<button ng-click="addNewChoice()" class="btn-large waves-effect waves-light indigo darken-4">Add new order
+				    <i class="material-icons left">add</i>
+				</button>				
+			</div>			
+			<div class="col s3">
+				  <button ng-click="submit()" class="btn-large waves-effect waves-light indigo darken-4" type="submit" name="action">Confirm order
+				    <i class="material-icons right">send</i>
+				  </button>
+			</div>
 		</div>
 	</form>
 </div>
