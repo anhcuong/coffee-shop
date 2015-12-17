@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   resources :products, except: [:new, :edit]
   resources :sizes, except: [:new, :edit]
   resources :types, except: [:new, :edit]
-  resources :orders, except: [:new, :edit]
+  resources :orders, except: [:new, :edit]  
+  # get 'price', to: 'products#PriceTable'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
