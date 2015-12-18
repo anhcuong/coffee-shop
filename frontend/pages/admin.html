@@ -19,7 +19,7 @@
 		<form ng-controller="adminformController">								
 			<div class="row">
 				<div class="input-field col s9 m9">				
-				  	<input placeholder="Drink Type" ng-model="newtype" type="text">         	
+				  	<input placeholder="Drink Type" ng-model="newtype.type.name" type="text">         	
 				</div>
 				<br>
 				<button ng-confirm-click="Do you want to proceed?" ng-click="addNewDrinkType(newtype)" class="btn waves-effect waves-light indigo darken-4">+    
@@ -28,7 +28,7 @@
 
 			<div class="row">
 				<div class="input-field col s9 m9">				
-				  	<input placeholder="Drink Size" ng-model="newsize" type="text">         	
+				  	<input placeholder="Drink Size" ng-model="newsize.size.name" type="text">         	
 				</div>
 				<br>
 				<button ng-confirm-click="Do you want to proceed?" ng-click="addNewDrinkSize(newsize)" class="btn waves-effect waves-light indigo darken-4">+    
@@ -37,25 +37,25 @@
 
 			<div class="row">
 				<div class="input-field col s12 m12">				
-				  	<input placeholder="Product Name" ng-model="newproduct.name" type="text">         	
+				  	<input placeholder="Product Name" ng-model="newproduct.product.name" type="text">         	
 				</div>
 				
 				<div class="input-field col s6 m6">				
-				  	<select class="browser-default" ng-model="newproduct.type">
+				  	<select class="browser-default" ng-model="newproduct.product.type_id">
 					    <option value="" disabled selected>Type</option>
 					    <option ng-repeat="type in types | orderBy:'id'" ng-value="type.id">{{ type.name }}</option>				    
 				  	</select>         	
 				</div>
 
 				<div class="input-field col s6 m6">				
-				  	<select class="browser-default" ng-model="newproduct.size">
+				  	<select class="browser-default" ng-model="newproduct.product.size_id">
 					    <option value="" disabled selected>Size</option>
 					    <option ng-repeat="size in sizes | orderBy:'id'" ng-value="size.id">{{ size.name }}</option>				    
 				  	</select>         	
 				</div>
 
 				<div class="input-field col s9 m9">				
-				  	<input placeholder="Product Price (SGD)" ng-model="newproduct.price" type="text">
+				  	<input placeholder="Product Price (SGD)" ng-model="newproduct.product.price" type="text">
 				</div>
 
 				<div class="col s3 m3">
@@ -74,26 +74,53 @@
 <hr>
 <div class="row">
 	<h3>Order History</h3>
-	
+	<h5> Total Revenue: {{ revenue | currency }} </h5>
 	<div class="col s12">
 		<table class="striped responsive-table">
 			<thead>
 				<tr>
-				  <th data-field="blank"></th>		  
-				  <!-- <th ng-repeat="size in sizes | orderBy:'id'">{{ size.name }}</th>		   -->
+				  <th>#Order</th>		  
+				  <th>Total</th>
+				  <th>Date</th>				  
 				</tr>
 			</thead>
 			<tbody>
-				<!-- <tr ng-repeat="product in products | unique:'name' | orderBy:'type_id'">
-					<td> {{ product.name }}</td>			
-					<td ng-repeat="size in sizes | orderBy:'id'">
-						<div ng-repeat="product2 in products | filter:product.name | orderBy:'size_id'">
-							<div ng-if="product2.size_id==size.id">{{ product2.price }}</div>	
-						</div>
-					</td>			
-				</tr>			 -->
+				<tr ng-repeat="order in orders | orderBy:'id'">
+					<td>{{ order.id }}</td>
+					<td>{{ order.total }}</td>
+					<td>{{ order.created_at | date:'yyyy-MM-dd HH:mm:ss Z' }}</td>
+					<td></td>
+				</tr>
+				
 			</tbody>
 		</table>
-	</div>	
+	</div>
+
+	<div class="col s12">
+		<table class="striped responsive-table">
+			<thead>
+				<tr>
+				  <th>#Order</th>		  
+				  <th>Drink</th>
+				  <th>Drink Type</th>
+				  <th>Drink Size</th>
+				  <th>Quantity</th>
+				  <th>Date</th>				  
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="order in orders_detail | orderBy:'id'">
+					<td>{{ order.id }}</td>
+					<td>{{ order.name }}</td>
+					<td>{{ getType(order.type_id) }}</td>
+					<td>{{ order.size_id }}</td>
+					<td>{{ order.quantity }}</td>
+					<td>{{ order.created_at | date:'yyyy-MM-dd HH:mm:ss Z' }}</td>
+					<td></td>
+				</tr>
+				
+			</tbody>
+		</table>
+	</div>
 
 </div>

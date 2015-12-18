@@ -42,13 +42,22 @@
 			<div class="input-field col s2 m1">				
 				<input ng-repeat="product in products | filter:choices[key].product" ng-if="product.size_id==choices[key].size" disabled ng-value="product.price | currency" type="text" class="validate"> 
 			</div>
-			<div class="input-field col s5 m2">				
-			  	<input placeholder="Quantity" ng-model="choices[key].quantity" type="text" class="">          		
+				
+			<div class="input-field col s4 m1">				
+			  	
+			  	<input ng-model="choices[key].hot" type="checkbox" id="{{ 'hot' + key }}" />
+
+      			<label for="{{ 'hot' + key }}">Hot?</label>
 			</div>
-			<div class="col s5 m2">
+
+			<div class="input-field col s4 m2">				
+			  	<input placeholder="Quantity" ng-model="choices[key].quantity" type="text" class="center-align"> 		
+			</div>
+
+			<div class="col s4 m2">
 				<a ng-click="removeChoice(key)" class="btn-floating btn-large waves-effect waves-light indigo darken-4">x</a>
 			</div>
-			{{ addTotal(product.price, choices[key].quantity) }}
+			
 		</div>		
 		<div class="row">
 			<div class="col s3">

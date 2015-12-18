@@ -1,6 +1,6 @@
 // AngularJS Routing Part
 var myApp = angular.module('app', ['ngRoute','angular.filter']);
-var BACKEND_URL="http://192.168.0.104:3000/";
+var BACKEND_URL="http://172.23.0.39:3000/";
 var BACKEND_PORT = 3000;
 var FRONTEND_PORT = 8000;
 
@@ -49,29 +49,58 @@ myApp.controller('orderController', function($scope,  $http) {
 });
 
 myApp.controller('adminController', function($scope,  $http) {
-    $http.get(BACKEND_URL.concat("types"))
-    .success(function(response) {             
-        $scope.types = response;                    
-    })
-    .error(function(response){        
-        $scope.message = "Internal Server Error";
-    });
+    $scope.initFirst=function()
+    {
+        $http.get(BACKEND_URL.concat("types"))
+        .success(function(response) {             
+            $scope.types = response;                    
+        })
+        .error(function(response){        
+            $scope.message = "Internal Server Error";
+        });
 
-    $http.get(BACKEND_URL.concat("sizes"))
-    .success(function(response) {             
-        $scope.sizes = response;                    
-    })
-    .error(function(response){        
-        $scope.message = "Internal Server Error";
-    });
+        $http.get(BACKEND_URL.concat("sizes"))
+        .success(function(response) {             
+            $scope.sizes = response;                    
+        })
+        .error(function(response){        
+            $scope.message = "Internal Server Error";
+        });
 
-    $http.get(BACKEND_URL.concat("products"))
-    .success(function(response) {             
-        $scope.products= response;            
-    })
-    .error(function(response){        
-        $scope.message = "Internal Server Error";
-    });        
+        $http.get(BACKEND_URL.concat("products"))
+        .success(function(response) {             
+            $scope.products= response;            
+        })
+        .error(function(response){        
+            $scope.message = "Internal Server Error";
+        });
+
+        $http.get(BACKEND_URL.concat("orders"))
+        .success(function(response) {             
+            $scope.orders= response;            
+        })
+        .error(function(response){        
+            $scope.message = "Internal Server Error";
+        });
+
+        $http.get(BACKEND_URL.concat("details/revenue"))
+        .success(function(response) {             
+            $scope.revenue= response;            
+        })
+        .error(function(response){        
+            $scope.message = "Internal Server Error";
+        });
+
+        $http.get(BACKEND_URL.concat("details/orders"))
+        .success(function(response) {             
+            $scope.orders_detail= response;            
+        })
+        .error(function(response){        
+            $scope.message = "Internal Server Error";
+        });        
+    };
+
+    $scope.initFirst();
 });
 
 myApp.controller('formController', function($scope,  $http) {  
@@ -95,10 +124,23 @@ myApp.controller('formController', function($scope,  $http) {
         return total;      
     }
     
-    $scope.submit = function() {
-        console.log($scope.choices);
-        if ($scope.data) {
-          console.log($scope.data);
+    $scope.submit = function() {        
+        var data = angular.toJson($scope.choices);        
+        console.log(data);
+
+        if (data) {
+            $http.post(BACKEND_URL.concat("orders"), data)
+            .success(function(response) {             
+                alert("Order Successfully! Your order will be served shortly...")
+            })
+            .error(function(response){                     
+                if (response.$status == 404){
+                    alert("You have ordered an invalid drink");
+                }else{
+                    alert("Internal Server Error");
+                }
+                
+            });  
         }
     };
 });
@@ -108,12 +150,26 @@ myApp.controller('adminformController', function($scope,  $http) {
     $scope.addNewDrinkType = function(newtype) {
         if (newtype){
             console.log(newtype);
+            $http.post(BACKEND_URL.concat("types"), newtype)
+            .success(function(response) {             
+                $scope.$parent.initFirst();
+            })
+            .error(function(response){                        
+                alert("Internal Server Error");
+            });
         }
     };
 
     $scope.addNewDrinkSize = function(newsize) {
         if (newsize){
-            console.log(newsize);
+            console.log(newsize);            
+            $http.post(BACKEND_URL.concat("sizes"), newsize)
+            .success(function(response) {             
+                $scope.$parent.initFirst();
+            })
+            .error(function(response){        
+                alert("Internal Server Error");
+            });
         }
     };
 
@@ -121,6 +177,13 @@ myApp.controller('adminformController', function($scope,  $http) {
         
         if (newproduct){
             console.log(newproduct);
+            $http.post(BACKEND_URL.concat("products"), newproduct)
+            .success(function(response) {             
+                $scope.$parent.initFirst();
+            })
+            .error(function(response){        
+                alert("Internal Server Error");
+            });
         }
     };
 });
