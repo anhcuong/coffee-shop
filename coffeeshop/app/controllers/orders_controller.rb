@@ -21,7 +21,14 @@ class OrdersController < ApplicationController
     total = 0
     
     @order = Order.new()
-    for product in params[:_json]           
+    for product in params[:_json]
+      
+      if (product[:quantity].nil? || product[:quantity] < 1 || !is_number(product[:quantity]))
+        # Handle case when order invalid quantity
+        render json: "", status: :bad_request
+        return
+      end
+
       @product = Product.find_by_name_and_size_id(product[:product], product[:size])      
       if @product.nil?
         # Handle case when order invalid products
@@ -79,5 +86,9 @@ class OrdersController < ApplicationController
 
     def order_params
       params.require(:order).permit(:total)
+    end
+
+    def is_number? string
+      true if Float(string) rescue false
     end
 end

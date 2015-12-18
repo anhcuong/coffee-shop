@@ -95,7 +95,8 @@
 			</tbody>
 		</table>
 	</div>
-
+	<h5> Order Details</h5>
+	
 	<div class="col s12">
 		<table class="striped responsive-table">
 			<thead>
@@ -109,18 +110,42 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="order in orders_detail | orderBy:'id'">
+				<tr ng-repeat="order in orders_detail | filter:{name: history.product, type_id: history.type, size_id: history.size} | orderBy:'id'">
 					<td>{{ order.id }}</td>
 					<td>{{ order.name }}</td>
-					<td>{{ getType(order.type_id) }}</td>
-					<td>{{ order.size_id }}</td>
+					<td ng-repeat="type in types" ng-if="order.type_id==type.id">{{ type.name }}</td>
+					<td ng-repeat="size in sizes" ng-if="order.size_id==size.id">{{ size.name }}</td>
 					<td>{{ order.quantity }}</td>
 					<td>{{ order.created_at | date:'yyyy-MM-dd HH:mm:ss Z' }}</td>
 					<td></td>
-				</tr>
-				
+				</tr>				
 			</tbody>
 		</table>
 	</div>
-
+</div>
+<div class = "row">
+	Filter by: 
+	<div class="row">
+		<div class="input-field col s4 m3 ">						
+			<select class="browser-default" ng-model="history.product">
+			    <option value="" disabled selected>Drink</option>
+			    <option value="" selected>Any</option>
+			    <option ng-repeat="product in products | unique:'name' | orderBy:'type_id'" ng-value="product.name">{{ product.name }}</option>				    
+		  	</select>
+		</div>
+		<div class="input-field col s4 m3 ">				
+		  	<select class="browser-default" ng-model="history.size">
+			    <option value="" disabled selected>Size</option>
+			    <option value="" selected>Any</option>
+			    <option ng-repeat="size in sizes | orderBy:'id'" ng-value="size.id">{{ size.name }}</option>				    
+		  	</select>
+		</div>
+		<div class="input-field col s4 m3 ">				
+		  	<select class="browser-default" ng-model="history.type">
+			    <option value="" disabled selected>Type</option>
+			    <option value="" selected>Any</option>
+			    <option ng-repeat="type in types | orderBy:'id'" ng-value="type.id">{{ type.name }}</option>				    
+		  	</select>
+		</div>
+	</div>
 </div>

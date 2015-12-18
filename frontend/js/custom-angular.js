@@ -1,6 +1,6 @@
 // AngularJS Routing Part
 var myApp = angular.module('app', ['ngRoute','angular.filter']);
-var BACKEND_URL="http://172.23.0.39:3000/";
+var BACKEND_URL="http://192.168.0.107:3000/";
 var BACKEND_PORT = 3000;
 var FRONTEND_PORT = 8000;
 
@@ -133,13 +133,15 @@ myApp.controller('formController', function($scope,  $http) {
             .success(function(response) {             
                 alert("Order Successfully! Your order will be served shortly...")
             })
-            .error(function(response){                     
-                if (response.$status == 404){
-                    alert("You have ordered an invalid drink");
-                }else{
-                    alert("Internal Server Error");
+            .error(function(response, status){                     
+                if (status == 404){
+                    alert("You have ordered an invalid drink...");
+                }else if (status == 400){
+                    alert("Please input a valid quantity...");
                 }
-                
+                else{
+                    alert("Internal Server Error");
+                }               
             });  
         }
     };
