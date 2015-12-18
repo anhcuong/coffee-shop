@@ -23,7 +23,7 @@ class OrdersController < ApplicationController
     @order = Order.new()
     for product in params[:_json]
       
-      if (product[:quantity].nil? || product[:quantity] < 1 || !is_number(product[:quantity]))
+      if (product[:quantity].nil? || product[:quantity].to_f < 1 || !isint(product[:quantity]))
         # Handle case when order invalid quantity
         render json: "", status: :bad_request
         return
@@ -88,7 +88,7 @@ class OrdersController < ApplicationController
       params.require(:order).permit(:total)
     end
 
-    def is_number? string
-      true if Float(string) rescue false
+    def isint(str)
+      return !!(str =~ /^[-+]?[1-9]([0-9]*)?$/)
     end
 end
