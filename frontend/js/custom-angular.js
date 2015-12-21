@@ -1,6 +1,6 @@
 // AngularJS Routing Part
 var myApp = angular.module('app', ['ngRoute','angular.filter']);
-var BACKEND_URL="http://192.168.0.107:3000/";
+var BACKEND_URL="http://trananhcuong.com:3000/";
 var BACKEND_PORT = 3000;
 var FRONTEND_PORT = 8000;
 
@@ -156,8 +156,13 @@ myApp.controller('adminformController', function($scope,  $http) {
             .success(function(response) {             
                 $scope.$parent.initFirst();
             })
-            .error(function(response){                        
-                alert("Internal Server Error");
+            .error(function(response, status){                        
+                if (status == 422){
+                    alert("Cannot update invalid item. Typo maybe?");
+                }                
+                else{
+                    alert("Internal Server Error");
+                }                               
             });
         }
     };
@@ -169,8 +174,13 @@ myApp.controller('adminformController', function($scope,  $http) {
             .success(function(response) {             
                 $scope.$parent.initFirst();
             })
-            .error(function(response){        
-                alert("Internal Server Error");
+            .error(function(response, status){
+                if (status == 422){
+                    alert("Cannot update invalid item. Typo maybe?");
+                }                
+                else{
+                    alert("Internal Server Error");
+                }                               
             });
         }
     };
@@ -183,8 +193,13 @@ myApp.controller('adminformController', function($scope,  $http) {
             .success(function(response) {             
                 $scope.$parent.initFirst();
             })
-            .error(function(response){        
-                alert("Internal Server Error");
+            .error(function(response, status){        
+                if (status == 422){
+                    alert("Cannot update invalid item. Typo maybe?");
+                }                
+                else{
+                    alert("Internal Server Error");
+                }                               
             });
         }
     };
@@ -205,3 +220,4 @@ myApp.directive('ngConfirmClick', [
             }
         };
     }])
+
